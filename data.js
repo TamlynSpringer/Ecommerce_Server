@@ -1,7 +1,30 @@
+import bcrypt from 'bcryptjs';
+
 const data = {
+  users: [
+    {
+      email: "user@example.com",
+      password: bcrypt.hashSync("Uu12345"),
+      isAdmin: false,
+
+    },
+    {
+      email: "admin@example.com",
+      password: bcrypt.hashSync("Aa12345"),
+      isAdmin: true,
+      isSuperAdmin: false,
+      brand: "Veritex Holdings, Inc."
+    },
+    {
+      email: "tamlyn@super.admin",
+      password: bcrypt.hashSync("Tt12345"),
+      isAdmin: true,
+      isSuperAdmin: true,
+      brand: "Baltic Store"
+    }
+  ],
   products: [
     {
-      _id: "1",
       name: "Star movie",
       slug: 'movie1',
       category: "Movies",
@@ -15,12 +38,11 @@ const data = {
       description: "Duis at velit eu est congue elementum. In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante."
     },
     {
-      _id: "2",
       name: "Beauty shoe",
       slug: 'shoe1',
       category: "Shoes",
       image: "http://dummyimage.com/450x600.png/5a8b5a/ffffff",
-      price: 4,
+      price: 3.90,
       countInStock: 48,
       brand: "Sally Beauty Holdings, Inc.",
       brandId: 1,
@@ -29,7 +51,6 @@ const data = {
       description: "Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy."
     },
     {
-      _id: "3",
       name: "Anthera grocery",
       slug: 'grocery1',
       category: "Grocery",
@@ -43,7 +64,6 @@ const data = {
       description: "Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien a libero. Nam dui. "
     },
     {
-      _id: '4',
       name: "Motorola toy",
       slug: 'toy1',
       category: "Toys",
@@ -51,13 +71,12 @@ const data = {
       price: 1.01,
       countInStock: 48,
       brand: "Motorola Solutions, Inc.",
-      brand: 3,
+      brandId: 3,
       rating: 3.5,
       numReviews: 10,
       description: "Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros."
     },
     {
-      _id: '5',
       name: "Veritex movie",
       slug: 'movie2',
       category: "Movies",
