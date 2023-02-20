@@ -15,7 +15,6 @@ userRouter.post(
           _id: user._id,
           email: user.email,
           isAdmin: user.isAdmin,
-          isSuperAdmin: user.isAdmin,
           brand: user.brand,
           token: generateToken(user),
         });
@@ -23,6 +22,28 @@ userRouter.post(
       }
     }
     res.status(401).send({ message: "Invalid email or password" });
+  })
+);
+
+userRouter.post(
+  "/register",
+  expressAsyncHandler(async (req, res) => {
+    const newUser = new User({
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password),
+      brand: req.body.brand
+    });
+    const user = await newUser.save();
+    if (user) {
+      res.send({
+        _id: user._id,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        brand: user.brand,
+        token: generateToken(user),
+      });
+    }
+    res.status(404).send({message: "Unable to create new user"})
   })
 );
 
