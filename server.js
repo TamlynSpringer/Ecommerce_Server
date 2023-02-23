@@ -7,6 +7,7 @@ import sourceRouter from './routes/sourceRoute.js';
 import productRouter from './routes/productRoute.js';
 import userRouter from './routes/userRoute.js';
 import orderRouter from './routes/orderRoute.js';
+import uploadRouter from './routes/uploadRoute.js';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 
 app.use('/api/source', sourceRouter);
+app.use('/api/upload', uploadRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
