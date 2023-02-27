@@ -6,21 +6,17 @@ const data = {
       email: "user@example.com",
       password: bcrypt.hashSync("Uu12345"),
       isAdmin: false,
-
     },
     {
       email: "admin@example.com",
       password: bcrypt.hashSync("Aa12345"),
       isAdmin: true,
-      isSuperAdmin: false,
-      brand: "Veritex Holdings, Inc."
+      storeId: 11
     },
     {
       email: "tamlyn@super.admin",
       password: bcrypt.hashSync("Tt12345"),
       isAdmin: true,
-      isSuperAdmin: true,
-      brand: "Baltic Store"
     }
   ],
   products: [

@@ -1,7 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
-import { isAuth, isAdmin } from '../utils.js';
+import { isAuth, isAdmin, isSeller } from '../utils.js';
 
 const productRouter = express.Router();
 
@@ -14,19 +14,20 @@ productRouter.post(
   '/',
   isAuth,
   isAdmin,
+  // isSeller,
   expressAsyncHandler(async (req, res) => {
     const newProduct = new Product({
-      name: 'sample name ' + Date.now(),
-      slug: 'sample-name-' + Date.now(),
-      image: 'http://dummyimage.com/450x600.png/808080/ffffff',
+      name: 'name ' + Date.now(),
+      slug: 'slug-' + Date.now(),
+      image: 'http://dummyimage.com/3000x4000.png/808080/ffffff',
       price: 0,
-      category: 'sample category',
-      brand: 'sample brand',
-      storeId: Date.now(),
+      category: '',
+      brand: '',
+      storeId: 0,
       countInStock: 0,
       rating: 0,
       numReviews: 0,
-      description: 'sample description',
+      description: 'description',
     });
     const product = await newProduct.save();
     res.send({ message: 'Product created', product });
@@ -38,6 +39,7 @@ productRouter.put(
   '/:id',
   isAuth,
   isAdmin,
+  // isSeller,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
     const product = await Product.findById(productId);
@@ -67,9 +69,9 @@ productRouter.delete(
     const product = await Product.findById(req.params.id);
     if (product) {
       await product.remove();
-      res.send({ message: 'Product Deleted' });
+      res.send({ message: 'Product deleted' });
     } else {
-      res.status(404).send({ message: 'Product Not Found' });
+      res.status(404).send({ message: 'Product not found' });
     }
   })
 );
@@ -80,6 +82,7 @@ productRouter.get(
   '/admin',
   isAuth,
   isAdmin,
+  // isSeller,
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
     const page = query.page || 1;
