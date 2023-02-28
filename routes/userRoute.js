@@ -16,39 +16,15 @@ userRouter.get(
   })
 );
 
-userRouter.put(
-  "/profile",
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
-      if (user.isSeller) {
-        user.seller.name = req.body.sellerName || user.seller.name;
-        user.seller.description = req.body.sellerDescription || user.seller.description;
-        user.seller.storeId = req.body.StoreId || user.seller.storeId;
-      }
-      if (req.body.password) {
-        user.password = bcrypt.hashSync(req.body.password, 8);
-      }
+userRouter.get('/seller/:id', expressAsyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
 
-      const updatedUser = await user.save();
-      res.send({
-        name: updatedUser.name,
-        email: updatedUser.email,
-        isAdmin: updatedUser.isAdmin,
-        isSeller: updatedUser.isSeller,
-        token: generateToken(updatedUser),
-        sellerName: updatedUser.seller.name,
-        sellerDescription: updatedUser.seller.description,
-        storeId: updatedUser.seller.storeId,
-      });
-    } else {
-      res.status(404).send({ message: "User not found" });
-    }
-  })
-);
+  if (user) {
+      res.send(user);
+  } else {
+      res.status(404).send({ message: 'Seller not found' });
+  }
+}));
 
 userRouter.get(
   '/:id',
@@ -58,25 +34,6 @@ userRouter.get(
     const user = await User.findById(req.params.id);
     if (user) {
       res.send(user);
-    } else {
-      res.status(404).send({ message: 'User not found' });
-    }
-  })
-);
-
-userRouter.put(
-  '/:id',
-  isAuth,
-  isAdmin,
-  expressAsyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
-      user.isAdmin = Boolean(req.body.isAdmin);
-      user.isSeller = Boolean(req.body.isSeller);
-      const updatedUser = await user.save();
-      res.send({ message: 'User updated', user: updatedUser });
     } else {
       res.status(404).send({ message: 'User not found' });
     }
@@ -125,26 +82,77 @@ userRouter.post(
 userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
+    const { email, password, isSeller, storeId } = req.body;
     const newUser = new User({
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password),
-      // storeId: user.storeId,
+      email,
+      password: bcrypt.hashSync(password),
+      isSeller,
+      storeId,
     });
     const user = await newUser.save();
-    if (user) {
       res.send({
         _id: user._id,
         email: user.email,
         isAdmin: user.isAdmin,
         isSeller: user.isSeller,
-        // storeId: user.storeId,
+        storeId: user.storeId,
         token: generateToken(user),
       });
-    }
     res.status(404).send({message: "Unable to create new user"})
   })
 );
 
+userRouter.put(
+  "/profile",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      if (user.isSeller) {
+        user.seller.name = req.body.sellerName || user.seller.name;
+        user.seller.description = req.body.sellerDescription || user.seller.description;
+        user.seller.storeId = req.body.StoreId || user.seller.storeId;
+      }
+      if (req.body.password) {
+        user.password = bcrypt.hashSync(req.body.password, 8);
+      }
 
+      const updatedUser = await user.save();
+      res.send({
+        _id: updatedUser._id,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        isSeller: updatedUser.isSeller,
+        token: generateToken(updatedUser),
+        sellerName: updatedUser.seller.name,
+        sellerDescription: updatedUser.seller.description,
+        storeId: updatedUser.seller.storeId,
+      });
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  })
+);
+
+userRouter.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.isAdmin = Boolean(req.body.isAdmin);
+      user.isSeller = Boolean(req.body.isSeller);
+      const updatedUser = await user.save();
+      res.send({ message: 'User updated', user: updatedUser });
+    } else {
+      res.status(404).send({ message: 'User not found' });
+    }
+  })
+);
 
 export default userRouter;

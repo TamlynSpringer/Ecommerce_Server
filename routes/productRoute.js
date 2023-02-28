@@ -1,28 +1,31 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
-import { isAuth, isAdmin, isSeller } from '../utils.js';
+import { isAuth, isAdmin, isSeller, isSellerOrAdmin } from '../utils.js';
 
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
-  const products = await Product.find();
-  res.send(products);
+  const seller = req.query.seller || '';
+    const sellerFilter = seller ? { seller } : {};
+
+    const products = await Product.find({ ...sellerFilter }).populate('seller', 'seller.name seller.logo');
+    res.send(products);
 });
 
 productRouter.post(
   '/',
   isAuth,
-  isAdmin,
-  // isSeller,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
     const newProduct = new Product({
       name: 'name ' + Date.now(),
+      seller: req.user._id,
       slug: 'slug-' + Date.now(),
-      image: 'http://dummyimage.com/3000x4000.png/808080/ffffff',
+      image: 'http://dummyimage.com/300x400.png/808080/ffffff',
       price: 0,
-      category: '',
-      brand: '',
+      category: 'eg',
+      brand: 'eg',
       storeId: 0,
       countInStock: 0,
       rating: 0,
@@ -38,8 +41,7 @@ productRouter.post(
 productRouter.put(
   '/:id',
   isAuth,
-  isAdmin,
-  // isSeller,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
     const product = await Product.findById(productId);
@@ -81,8 +83,7 @@ const PAGE_SIZE = 3;
 productRouter.get(
   '/admin',
   isAuth,
-  isAdmin,
-  // isSeller,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
     const page = query.page || 1;
