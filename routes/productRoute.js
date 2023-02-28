@@ -9,7 +9,7 @@ productRouter.get('/', async (req, res) => {
   const seller = req.query.seller || '';
     const sellerFilter = seller ? { seller } : {};
 
-    const products = await Product.find({ ...sellerFilter }).populate('seller', 'seller.name seller.logo');
+    const products = await Product.find({ ...sellerFilter }).populate('seller', 'seller.name');
     res.send(products);
 });
 
@@ -78,7 +78,7 @@ productRouter.delete(
   })
 );
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 5;
 
 productRouter.get(
   '/admin',
@@ -88,8 +88,10 @@ productRouter.get(
     const { query } = req;
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
+    const seller = req.query.seller || '';
+    const sellerFilter = seller ? { seller } : {};
 
-    const products = await Product.find()
+    const products = await Product.find({ ...sellerFilter })
       .skip(pageSize * (page - 1))
       .limit(pageSize);
     const countProducts = await Product.countDocuments();
@@ -103,7 +105,7 @@ productRouter.get(
 );
 
 productRouter.get(`/slug/:slug`, async (req, res) => {
-  const product = await Product.findOne({slug: req.params.slug});
+  const product = await Product.findOne({slug: req.params.slug}).populate('seller', 'seller.name seller.description');
   if (!product) {
     res.status(404).send({ message: 'Product not found' })   
   } res.send(product)
