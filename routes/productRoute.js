@@ -26,7 +26,6 @@ productRouter.post(
       price: 0,
       category: 'eg',
       brand: 'eg',
-      storeId: 0,
       countInStock: 0,
       rating: 0,
       numReviews: 0,
@@ -89,19 +88,22 @@ productRouter.get(
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
     const seller = req.query.seller || '';
+    console.log(seller)
     const sellerFilter = seller ? { seller } : {};
 
     const products = await Product.find({ ...sellerFilter })
-      .skip(pageSize * (page - 1))
-      .limit(pageSize);
+        .skip(pageSize * (page - 1))
+        .limit(pageSize);
+
     const countProducts = await Product.countDocuments();
+
     res.send({
-      products,
-      countProducts,
-      page,
-      pages: Math.ceil(countProducts / pageSize),
+        products,
+        countProducts,
+        page,
+        pages: Math.ceil(countProducts / pageSize),
     });
-  })
+})
 );
 
 productRouter.get(`/slug/:slug`, async (req, res) => {

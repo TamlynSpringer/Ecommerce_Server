@@ -69,7 +69,6 @@ userRouter.post(
           email: user.email,
           isAdmin: user.isAdmin,
           isSeller: user.isSeller,
-          storeId: user.storeId,
           token: generateToken(user),
         });
         return;
@@ -82,12 +81,11 @@ userRouter.post(
 userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
-    const { email, password, isSeller, storeId } = req.body;
+    const { email, password, isSeller } = req.body;
     const newUser = new User({
       email,
       password: bcrypt.hashSync(password),
       isSeller,
-      storeId,
     });
     const user = await newUser.save();
       res.send({
@@ -95,7 +93,6 @@ userRouter.post(
         email: user.email,
         isAdmin: user.isAdmin,
         isSeller: user.isSeller,
-        storeId: user.storeId,
         token: generateToken(user),
       });
     res.status(404).send({message: "Unable to create new user"})
@@ -113,7 +110,6 @@ userRouter.put(
       if (user.isSeller) {
         user.seller.name = req.body.sellerName || user.seller.name;
         user.seller.description = req.body.sellerDescription || user.seller.description;
-        user.seller.storeId = req.body.StoreId || user.seller.storeId;
       }
       if (req.body.password) {
         user.password = bcrypt.hashSync(req.body.password, 8);
@@ -128,7 +124,6 @@ userRouter.put(
         token: generateToken(updatedUser),
         sellerName: updatedUser.seller.name,
         sellerDescription: updatedUser.seller.description,
-        storeId: updatedUser.seller.storeId,
       });
     } else {
       res.status(404).send({ message: "User not found" });
