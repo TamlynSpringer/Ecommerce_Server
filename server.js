@@ -21,25 +21,25 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors(corsOptions));
+app.use(cors());
 
-const whitelist = ['https://baltic-store-api.cyclic.app/', 'http://localhost:8000', 'http://localhost:5173', 'https://baltic-store.netlify.app/']
-const corsOptionsDelegate = function (req, callback) {
-  let corsOptions;
-  if (whitelist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false } // disable CORS for this request
-  }
-  callback(null, corsOptions) // callback expects two parameters: error and options
-}
+// const whitelist = ['https://baltic-store-api.cyclic.app/', 'http://localhost:8000', 'http://localhost:5173', 'https://baltic-store.netlify.app/']
+// const corsOptionsDelegate = function (req, callback) {
+//   let corsOptions;
+//   if (whitelist.indexOf(req.header('Origin')) !== -1) {
+//     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+//   } else {
+//     corsOptions = { origin: false } // disable CORS for this request
+//   }
+//   callback(null, corsOptions) // callback expects two parameters: error and options
+// }
  
 
-app.use('/api/source', cors(corsOptionsDelegate), sourceRouter);
-app.use('/api/upload', cors(corsOptionsDelegate), uploadRouter);
-app.use('/api/products', cors(corsOptionsDelegate), productRouter);
-app.use('/api/users', cors(corsOptionsDelegate), userRouter);
-app.use('/api/orders', cors(corsOptionsDelegate), orderRouter);
+app.use('/api/source', sourceRouter);
+app.use('/api/upload', uploadRouter);
+app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
