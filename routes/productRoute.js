@@ -103,7 +103,7 @@ productRouter.post(
     const newProduct = new Product({
       name: 'name ' + Date.now(),
       seller: req.user._id,
-      slug: 'slug-' + Date.now(),
+      sku: 'sku-' + Date.now(),
       image: 'http://dummyimage.com/300x400.png/808080/ffffff',
       price: 0,
       category: 'eg',
@@ -128,7 +128,7 @@ productRouter.put(
     const product = await Product.findById(productId);
     if (product) {
       product.name = req.body.name;
-      product.slug = req.body.slug;
+      product.sku = req.body.sku;
       product.price = req.body.price;
       product.image = req.body.image;
       product.images = req.body.images;
@@ -186,8 +186,8 @@ productRouter.get(
 })
 );
 
-productRouter.get(`/slug/:slug`, async (req, res) => {
-  const product = await Product.findOne({slug: req.params.slug}).populate('seller', 'seller.name seller.description');
+productRouter.get(`/sku/:sku`, async (req, res) => {
+  const product = await Product.findOne({sku: req.params.sku}).populate('seller', 'seller.name seller.description');
   if (!product) {
     res.status(404).send({ message: 'Product not found' })   
   } res.send(product)

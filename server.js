@@ -16,24 +16,12 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.log(err.message));
 
-const app = express();
+const app = express(corsOptions);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
-
-// const whitelist = ['https://baltic-store-api.cyclic.app/', 'http://localhost:8000', 'http://localhost:5173', 'https://baltic-store.netlify.app/']
-// const corsOptionsDelegate = function (req, callback) {
-//   let corsOptions;
-//   if (whitelist.indexOf(req.header('Origin')) !== -1) {
-//     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-//   } else {
-//     corsOptions = { origin: false } // disable CORS for this request
-//   }
-//   callback(null, corsOptions) // callback expects two parameters: error and options
-// }
- 
 
 app.use('/api/source', sourceRouter);
 app.use('/api/upload', uploadRouter);
