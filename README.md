@@ -43,7 +43,7 @@ Can be tested in Postman (GET, POST, PUT, DELETE) or in the browser (GET)
   Filter products by category
 - /api/products/admin
   View of all products in a table, with the option to edit (PUT) and delete (DELETE) products
-- /api/products/sku/:sku
+- /api/products/slug/:slug
   Find one product by its SKU 
 - /api/products/:id
   Find one product by its ID 

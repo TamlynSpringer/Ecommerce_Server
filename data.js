@@ -28,7 +28,7 @@ const data = {
   products: [
     {
       name: "Star movie",
-      sku: "movie1",
+      slug: "movie1",
       category: "Movies",
       image: "http://dummyimage.com/450x600.png/fca36f/ffffff",
       price: 3.56,
@@ -40,7 +40,7 @@ const data = {
     },
     {
       name: "Beauty shoe",
-      sku: "shoe1",
+      slug: "shoe1",
       category: "Shoes",
       image: "http://dummyimage.com/450x600.png/5a8b5a/ffffff",
       price: 3.90,
@@ -52,7 +52,7 @@ const data = {
     },
     {
       name: "Anthera grocery",
-      sku: "grocery1",
+      slug: "grocery1",
       category: "Grocery",
       image: "http://dummyimage.com/450x600.png/5fa2dd/ffffff",
       price: 5.75,
@@ -64,7 +64,7 @@ const data = {
     },
     {
       name: "Motorola toy",
-      sku: "toy1",
+      slug: "toy1",
       category: "Toys",
       image: "http://dummyimage.com/450x600.png/b17dae/ffffff",
       price: 1.01,
@@ -76,7 +76,7 @@ const data = {
     },
     {
       name: "Veritex movie",
-      sku: "movie2",
+      slug: "movie2",
       category: "Movies",
       image: "http://dummyimage.com/450x600.png/fca36f/ffffff",
       price: 0.92,
