@@ -13,7 +13,7 @@ productRouter.get('/', async (req, res) => {
     res.send(products);
 });
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 50;
 
 productRouter.get(
   '/search',
@@ -39,7 +39,6 @@ productRouter.get(
     const priceFilter =
       price && price !== 'all'
         ? {
-            // 1-50
             price: {
               $gte: Number(price.split('-')[0]),
               $lte: Number(price.split('-')[1]),
@@ -85,6 +84,14 @@ productRouter.get(
   expressAsyncHandler(async (req, res) => {
     const categories = await Product.find().distinct('category');
     res.send(categories);
+  })
+);
+
+productRouter.get(
+  '/brands',
+  expressAsyncHandler(async (req, res) => {
+    const brands = await Product.find().distinct('brand');
+    res.send(brands);
   })
 );
 
