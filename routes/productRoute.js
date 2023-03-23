@@ -95,6 +95,14 @@ productRouter.get(
   })
 );
 
+productRouter.get(
+  '/sellers',
+  expressAsyncHandler(async (req, res) => {
+    const sellers = await Product.find().distinct('seller');
+    res.send(sellers);
+  })
+);
+
 productRouter.post(
   '/',
   isAuth,
