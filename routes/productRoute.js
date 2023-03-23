@@ -176,7 +176,6 @@ productRouter.get(
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
     const seller = req.query.seller._id || '';
-    console.log(seller)
     const sellerFilter = seller ? { seller } : {};
 
     const products = await Product.find({ ...sellerFilter })
