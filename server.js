@@ -3,7 +3,7 @@ import cors from 'cors';
 import corsOptions from './config/corsOptions.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import sourceRouter from './routes/sourceRoute.js';
+// import sourceRouter from './routes/sourceRoute.js';
 import productRouter from './routes/productRoute.js';
 import userRouter from './routes/userRoute.js';
 import orderRouter from './routes/orderRoute.js';
@@ -23,7 +23,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-app.use('/api/source', sourceRouter);
+app.get('/', (req, res) => {
+  res.status(200).send({message: 'Server working. Go to /api/products'})
+})
+// app.use('/api/source', sourceRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);

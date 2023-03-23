@@ -190,7 +190,8 @@ productRouter.get(`/slug/:slug`, async (req, res) => {
   const product = await Product.findOne({slug: req.params.slug}).populate('seller', 'seller.name seller.description');
   if (!product) {
     res.status(404).send({ message: 'Product not found' })   
-  } res.send(product)
+  } 
+  res.send(product)
 });
 
 productRouter.get('/:id', async (req, res) => {
