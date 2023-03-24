@@ -97,14 +97,6 @@ productRouter.get(
   })
 );
 
-productRouter.get(
-  '/sellers',
-  expressAsyncHandler(async (req, res) => {
-    const sellers = await Product.find().distinct('seller');
-    res.send(sellers);
-  })
-);
-
 productRouter.post(
   '/',
   isAuth,
@@ -141,7 +133,6 @@ productRouter.put(
       product.slug = req.body.slug;
       product.price = req.body.price;
       product.image = req.body.image;
-      product.images = req.body.images;
       product.category = req.body.category;
       product.brand = req.body.brand;
       product.countInStock = req.body.countInStock;

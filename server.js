@@ -17,11 +17,11 @@ mongoose
   .catch((err) => console.log(err.message));
 
 const app = express(corsOptions);
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
 
 app.get('/', (req, res) => {
   res.status(200).send({message: 'Server working. Go to /api/products'})

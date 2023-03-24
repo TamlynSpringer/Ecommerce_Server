@@ -5,6 +5,7 @@ const allowedOrigins = [
   'http://localhost:8000',
   'http://127.0.0.1:5173',
   'http://localhost:5173',
+  'http://localhost:5174',
   'http://localhost:5173/register',
   'http://localhost:5173/auth',
   'https://baltic-store.netlify.app/'
