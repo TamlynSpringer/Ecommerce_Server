@@ -36,6 +36,7 @@ productRouter.get(
           }
         : {};
     const categoryFilter = category && category !== 'all' ? { category } : {};
+    const brandFilter = brand && brand !== 'all' ? { brand } : {};
     const priceFilter =
       price && price !== 'all'
         ? {
@@ -59,6 +60,7 @@ productRouter.get(
     const products = await Product.find({
       ...queryFilter,
       ...categoryFilter,
+      ...brandFilter,
       ...priceFilter,
     })
       .sort(sortOrder)
@@ -112,7 +114,7 @@ productRouter.post(
       name: 'name ' + Date.now(),
       seller: req.user._id,
       slug: 'slug-' + Date.now(),
-      image: 'http://dummyimage.com/300x400.png/808080/ffffff',
+      image: 'https://res.cloudinary.com/dvzo8f8cv/image/upload/v1679650824/Image_ljspdd.jpg',
       price: 0,
       category: 'eg',
       brand: 'eg',
