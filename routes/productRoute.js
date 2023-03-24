@@ -36,7 +36,7 @@ productRouter.get(
           }
         : {};
     const categoryFilter = category && category !== 'all' ? { category } : {};
-    const brandFilter = brand && brand !== 'all' ? { brand } : {};
+    // const brandFilter = brand && brand !== 'all' ? { brand } : {};
     const priceFilter =
       price && price !== 'all'
         ? {
@@ -60,7 +60,6 @@ productRouter.get(
     const products = await Product.find({
       ...queryFilter,
       ...categoryFilter,
-      ...brandFilter,
       ...priceFilter,
     })
       .sort(sortOrder)
@@ -89,13 +88,13 @@ productRouter.get(
   })
 );
 
-productRouter.get(
-  '/brands',
-  expressAsyncHandler(async (req, res) => {
-    const brands = await Product.find().distinct('brand');
-    res.send(brands);
-  })
-);
+// productRouter.get(
+//   '/brands',
+//   expressAsyncHandler(async (req, res) => {
+//     const brands = await Product.find().distinct('brand');
+//     res.send(brands);
+//   })
+// );
 
 productRouter.post(
   '/',
